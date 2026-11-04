@@ -20,6 +20,16 @@ const CARS = {
   nss: { sign: "DJS NSS", neon: "#ffc43a", paint: null, color: null, heading: -Math.PI / 2, length: 5.0, angle: 0.72, lift: 0, shift: 0.19 },
   hero: { sign: "DHRUV'S GARAGE", neon: "#ff2d46", paint: /CARROSSERIE/, color: "#12151b", file: "atlas", heading: 0, length: 4.9, angle: 0.5, lift: 0, shift: 0 },
 };
+// Close-up shots: the same cars with a fixed camera position, look target and lens.
+const common = { lift: 0, angle: 0.72, sign: "" };
+Object.assign(CARS, {
+  workshop: { ...common, file: "atlas", neon: "#ff5a1f", paint: /CARROSSERIE/, color: "#e8590c", heading: 0, length: 4.9, shift: 0.24, shot: { pos: [3.15, 0.34, 2.95], look: [0.72, 0.42, 1.62], fov: 24 } },
+  glovebox: { ...common, file: "trustcheck", neon: "#2fb4ff", paint: null, color: null, heading: 0, length: 4.7, shift: 0.22, boost: 0.75, shot: { pos: [3.6, 1.28, 1.5], look: [0.1, 0.8, 0.1], fov: 22 } },
+  service: { ...common, file: "nss", neon: "#ffc43a", paint: null, color: null, heading: -Math.PI / 2, length: 5.0, shift: 0.15, dim: true, shot: { pos: [3.0, 0.5, -6.0], look: [0.2, 0.68, -1.5], fov: 24 } },
+  hardware: { ...common, file: "agrix", neon: "#57e36f", paint: null, color: null, heading: 0, length: 4.4, shift: 0.24, boost: 1.6, shot: { pos: [4.1, 0.75, -2.4], look: [0.9, 1.0, -0.75], fov: 28 } },
+  tools: { ...common, sign: "THE TOOL WALL", signAt: [0, 3.32, -0.68], signScale: 0.62, scene: "tools", neon: "#ff2d46", paint: null, color: null, heading: 0, length: 4.6, shift: 0, shot: { pos: [1.5, 1.72, 7.6], look: [0, 1.72, 0], fov: 30 } },
+  finish: { ...common, file: "atlas", neon: "#ff2d46", paint: /CARROSSERIE/, color: "#12151b", heading: 0, length: 4.9, shift: 0, dim: true, shot: { pos: [-1.5, 0.42, -5.5], look: [-0.05, 0.62, -1.4], fov: 24 } },
+});
 const params = new URLSearchParams(location.search);
 const key = params.get("car") || "atlas";
 const config = { ...CARS[key] };
@@ -134,6 +144,10 @@ function sign(text, colour) {
   const material = new THREE.MeshBasicMaterial({ map: texture, color: new THREE.Color(colour).multiplyScalar(5), transparent: true, depthWrite: false, fog: false });
   const mesh = new THREE.Mesh(new THREE.PlaneGeometry(7.6, 7.6 * 300 / 2048), material);
   mesh.position.set(-Math.tan(config.angle) * 5.55 + 0.9, 2.5, -5.55);
+  if (config.signAt) {
+    mesh.position.set(...config.signAt);
+    mesh.scale.setScalar(config.signScale);
+  }
   scene.add(mesh);
   return material;
 }
@@ -144,7 +158,120 @@ composer.addPass(new RenderPass(scene, camera));
 composer.addPass(new UnrealBloomPass(new THREE.Vector2(WIDTH, HEIGHT), 0.2, 0.6, 0.96));
 composer.addPass(new OutputPass());
 
-const model = (await new GLTFLoader().loadAsync(`../models/${config.file || key}.glb`)).scene;
+// The skills scene: a red roller cabinet where every drawer is a skill group, under a wall of hung tools.
+function toolScene() {
+  const group = new THREE.Group();
+  const steel = new THREE.MeshPhysicalMaterial({ color: "#a50f18", metalness: 0.75, roughness: 0.32, clearcoat: 1, clearcoatRoughness: 0.08 });
+  const dark = new THREE.MeshStandardMaterial({ color: "#0b0c0f", metalness: 0.5, roughness: 0.55 });
+  const chrome = new THREE.MeshStandardMaterial({ color: "#d9dde3", metalness: 1, roughness: 0.14 });
+  const box = (w, h, d, material, x, y, z) => {
+    const mesh = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), material);
+    mesh.position.set(x, y, z);
+    group.add(mesh);
+    return mesh;
+  };
+  box(4.6, 2.22, 0.9, steel, 0, 1.33, 0);
+  box(4.72, 0.07, 1, dark, 0, 2.48, 0);
+  box(4.6, 0.1, 0.92, dark, 0, 0.26, 0);
+  for (const [x, z] of [[-2, 0.3], [2, 0.3], [-2, -0.3], [2, -0.3]]) {
+    const wheel = new THREE.Mesh(new THREE.CylinderGeometry(0.11, 0.11, 0.09, 24), dark);
+    wheel.rotation.x = Math.PI / 2;
+    wheel.position.set(x, 0.11, z);
+    group.add(wheel);
+  }
+  const drawers = [
+    ["LANGUAGES AND WEB", "Python  C++  Java  C  JavaScript  HTML  CSS  Node.js"],
+    ["DATA AND ML", "TensorFlow  Scikit-Learn  Pandas  NumPy  Matplotlib  Seaborn"],
+    ["FRAMEWORKS AND TOOLS", "React  Tailwind  FastAPI  Three.js  SQL  Docker  Git  Vercel"],
+    ["FOUNDATIONS", "DSA  DAA  DBMS  OS  MIS  Corporate Finance"],
+  ];
+  drawers.forEach(([title, skills], i) => {
+    const y = 2.14 - i * 0.54;
+    box(4.42, 0.49, 0.03, steel, 0, y, 0.46);
+    const canvas = document.createElement("canvas");
+    canvas.width = 2048;
+    canvas.height = 200;
+    const paint = canvas.getContext("2d");
+    paint.fillStyle = "#0a0b0e";
+    paint.fillRect(0, 0, 2048, 200);
+    paint.fillStyle = "#ff5a64";
+    paint.font = "700 46px Bahnschrift, Arial, sans-serif";
+    paint.fillText(title, 44, 74);
+    paint.fillStyle = "#f4f1ea";
+    paint.font = "400 62px Bahnschrift, Arial, sans-serif";
+    paint.fillText(skills, 44, 158, 1960);
+    const label = new THREE.CanvasTexture(canvas);
+    label.colorSpace = THREE.SRGBColorSpace;
+    label.anisotropy = 8;
+    const plate = new THREE.Mesh(new THREE.PlaneGeometry(4.1, 0.4), new THREE.MeshStandardMaterial({ map: label, roughness: 0.42, metalness: 0.1, emissive: "#ffffff", emissiveMap: label, emissiveIntensity: 0.34 }));
+    plate.position.set(0, y + 0.015, 0.48);
+    group.add(plate);
+    const handle = new THREE.Mesh(new THREE.CapsuleGeometry(0.014, 4.1, 6, 12), chrome);
+    handle.rotation.z = Math.PI / 2;
+    handle.position.set(0, y - 0.215, 0.51);
+    group.add(handle);
+  });
+  // Sockets and a torque wrench on top, so the cabinet looks used.
+  for (let i = 0; i < 9; i++) {
+    const socket = new THREE.Mesh(new THREE.CylinderGeometry(0.055 + i * 0.006, 0.055 + i * 0.006, 0.17, 24), chrome);
+    socket.position.set(-2 + i * 0.16, 2.6, 0.08);
+    group.add(socket);
+  }
+  const bar = new THREE.Mesh(new THREE.CylinderGeometry(0.018, 0.024, 1.25, 16), chrome);
+  bar.rotation.z = Math.PI / 2;
+  bar.position.set(1.05, 2.54, 0.1);
+  group.add(bar);
+  return group;
+}
+function toolWall() {
+  const canvas = document.createElement("canvas");
+  canvas.width = canvas.height = 64;
+  const paint = canvas.getContext("2d");
+  paint.fillStyle = "#3b4048";
+  paint.fillRect(0, 0, 64, 64);
+  paint.fillStyle = "#050608";
+  paint.beginPath();
+  paint.arc(32, 32, 8, 0, 7);
+  paint.fill();
+  const map = new THREE.CanvasTexture(canvas);
+  map.colorSpace = THREE.SRGBColorSpace;
+  map.wrapS = map.wrapT = THREE.RepeatWrapping;
+  map.repeat.set(44, 18);
+  const board = new THREE.Mesh(new THREE.PlaneGeometry(16, 6.5), new THREE.MeshStandardMaterial({ map, metalness: 0.45, roughness: 0.62 }));
+  board.position.set(0, 3.25, -0.72);
+  scene.add(board);
+  const chrome = new THREE.MeshStandardMaterial({ color: "#d4d8df", metalness: 1, roughness: 0.2 });
+  const grip = new THREE.MeshStandardMaterial({ color: "#a50f18", roughness: 0.45 });
+  const hang = (mesh, x, y) => {
+    mesh.position.set(x, y, -0.66);
+    scene.add(mesh);
+  };
+  // Combination spanners, large to small.
+  for (let i = 0; i < 8; i++) {
+    const length = 0.86 - i * 0.07;
+    const spanner = new THREE.Group();
+    const shaft = new THREE.Mesh(new THREE.BoxGeometry(0.05, length, 0.018), chrome);
+    const ring = new THREE.Mesh(new THREE.TorusGeometry(0.052, 0.018, 10, 24), chrome);
+    ring.position.y = length / 2;
+    const jaw = new THREE.Mesh(new THREE.TorusGeometry(0.058, 0.018, 10, 24, Math.PI * 1.35), chrome);
+    jaw.rotation.z = -Math.PI * 0.18 + Math.PI;
+    jaw.position.y = -length / 2 - 0.02;
+    spanner.add(shaft, ring, jaw);
+    hang(spanner, -3.55 + i * 0.2, 2.95);
+  }
+  // Screwdrivers.
+  for (let i = 0; i < 7; i++) {
+    const driver = new THREE.Group();
+    const blade = new THREE.Mesh(new THREE.CylinderGeometry(0.012, 0.012, 0.5, 12), chrome);
+    blade.position.y = -0.2;
+    const handle = new THREE.Mesh(new THREE.CylinderGeometry(0.038, 0.032, 0.27, 16), grip);
+    handle.position.y = 0.17;
+    driver.add(blade, handle);
+    hang(driver, 2.15 + i * 0.2, 2.98);
+  }
+}
+const model = config.scene ? toolScene() : (await new GLTFLoader().loadAsync(`../models/${config.file || key}.glb`)).scene;
+if (config.scene) toolWall();
 const seen = new Set();
 model.traverse((node) => {
   if (!node.isMesh) return;
@@ -203,6 +330,11 @@ contact.rotation.x = -Math.PI / 2;
 contact.position.y = 0.006;
 scene.add(contact);
 if (config.boost) key_light.intensity *= config.boost;
+if (config.dim) {
+  floor.material.envMapIntensity = 0;
+  for (const strip of strips) strip.visible = false;
+}
+if (config.scene) for (const strip of strips) strip.visible = false;
 camera.setViewOffset(WIDTH, HEIGHT, -WIDTH * config.shift, 0, WIDTH, HEIGHT);
 
 window.info = { size: size.toArray().map((n) => +n.toFixed(2)), materials: [...new Set([...seen])].length };
@@ -210,8 +342,15 @@ window.renderFrame = (t) => {
   const wave = Math.sin(t * Math.PI * 2);
   const angle = config.angle + wave * 0.045;
   const distance = Math.max(config.length * 1.42, size.y * 3.4);
-  camera.position.set(Math.sin(angle) * distance, 0.62 + wave * 0.04, Math.cos(angle) * distance);
-  camera.lookAt(0, size.y * 0.42, 0);
+  if (config.shot) {
+    camera.fov = config.shot.fov;
+    camera.updateProjectionMatrix();
+    camera.position.set(config.shot.pos[0] + wave * 0.07, config.shot.pos[1] + wave * 0.012, config.shot.pos[2]);
+    camera.lookAt(...config.shot.look);
+  } else {
+    camera.position.set(Math.sin(angle) * distance, 0.62 + wave * 0.04, Math.cos(angle) * distance);
+    camera.lookAt(0, size.y * 0.42, 0);
+  }
   scene.environmentRotation.y = Math.cos(t * Math.PI * 2) * 0.22;
   // Fluorescent tubes and neon, with one quick stutter per loop.
   const stutter = t > 0.62 && t < 0.655 ? 0.25 : 1;
