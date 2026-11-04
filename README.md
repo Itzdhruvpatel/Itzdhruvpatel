@@ -84,7 +84,7 @@ Redesigned the official site with the team and built the Grainathon and Blood Do
 
 ## The tool wall
 
-*Every drawer is a skill group. Every tool has been used on something above.*
+*Every drawer is a skill group.*
 
 <img src="assets/tools.webp" width="100%" alt="Red roller tool cabinet under a neon sign reading The Tool Wall. Languages and web: Python, C++, Java, C, JavaScript, HTML, CSS, Node.js. Data and ML: TensorFlow, Scikit-Learn, Pandas, NumPy, Matplotlib, Seaborn. Frameworks and tools: React, Tailwind, FastAPI, Three.js, SQL, Docker, Git, Vercel. Foundations: DSA, DAA, DBMS, OS, MIS, Corporate Finance."/>
 
