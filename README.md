@@ -78,7 +78,15 @@ Redesigned the official site with the team and built the Grainathon and Blood Do
 
 ## The workshop
 
-`Python` `C++` `Java` `C` `JavaScript` `React` `Node.js` `FastAPI` `Three.js` `TensorFlow` `Scikit-Learn` `Pandas` `NumPy` `SQL` `Docker` `Git` `Vercel`
+**Languages and web:** `Python` `C++` `Java` `C` `JavaScript` `HTML` `CSS` `Node.js`
+
+**Data and ML:** `TensorFlow` `Scikit-Learn` `Pandas` `NumPy` `Matplotlib` `Seaborn`
+
+**Frameworks and tools:** `React` `Tailwind CSS` `FastAPI` `Three.js` `SQL` `Docker` `Git` `Vercel`
+
+**Foundations:** `DSA` `DAA` `DBMS` `OS` `MIS` `Corporate Finance`
+
+**Also built, with actual hardware:** a drip irrigation system that optimizes water distribution, and a multi-stage water purifier that removes physical and chemical impurities.
 
 <img src="assets/telemetry.svg" width="100%" alt="Line chart of my weekly GitHub contributions over the last 12 months, refreshed daily."/>
 
@@ -89,7 +97,11 @@ Redesigned the official site with the team and built the Grainathon and Blood Do
 - B.Tech in Information Technology at DJSCE, 2024 to 2028, CGPA 9.49
 - Oracle Certified Foundations Associate, 95%
 - AWS Cloud Practitioner Essentials
-- Technical Co-Committee Member, DJS NSS
+- Deloitte Technology Job Simulation
+- 90+ problems solved on LeetCode
+- Technical Co-Committee Member, DJS NSS, since July 2025: registration workflows for Grainathon and the Blood Donation Drive, plus team operations at the NSS Rural Camp and awareness rallies
+- NSS service recognition: Grainathon 3.0 (contributed 35 kg), NSS Rural Camp, Andheri Blood Donation Drive, Juhu Beach Cleanup and Vegan Outreach
+- Fund It Up: built business models and data-backed financial forecasts in the campus entrepreneurship competition
 
 </details>
 
