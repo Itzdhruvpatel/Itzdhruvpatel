@@ -23,10 +23,6 @@ const CARS = {
 // Close-up shots: the same cars with a fixed camera position, look target and lens.
 const common = { lift: 0, angle: 0.72, sign: "" };
 Object.assign(CARS, {
-  workshop: { ...common, file: "atlas", neon: "#ff5a1f", paint: /CARROSSERIE/, color: "#e8590c", heading: 0, length: 4.9, shift: 0.24, shot: { pos: [3.15, 0.34, 2.95], look: [0.72, 0.42, 1.62], fov: 24 } },
-  glovebox: { ...common, file: "trustcheck", neon: "#2fb4ff", paint: null, color: null, heading: 0, length: 4.7, shift: 0.22, boost: 0.75, shot: { pos: [3.6, 1.28, 1.5], look: [0.1, 0.8, 0.1], fov: 22 } },
-  service: { ...common, file: "nss", neon: "#ffc43a", paint: null, color: null, heading: -Math.PI / 2, length: 5.0, shift: 0.15, dim: true, shot: { pos: [3.0, 0.5, -6.0], look: [0.2, 0.68, -1.5], fov: 24 } },
-  hardware: { ...common, file: "agrix", neon: "#57e36f", paint: null, color: null, heading: 0, length: 4.4, shift: 0.24, boost: 1.6, shot: { pos: [4.1, 0.75, -2.4], look: [0.9, 1.0, -0.75], fov: 28 } },
   tools: { ...common, sign: "THE TOOL WALL", signAt: [0, 3.32, -0.68], signScale: 0.62, scene: "tools", neon: "#ff2d46", paint: null, color: null, heading: 0, length: 4.6, shift: 0, shot: { pos: [1.5, 1.72, 7.6], look: [0, 1.72, 0], fov: 30 } },
   finish: { ...common, file: "atlas", neon: "#ff2d46", paint: /CARROSSERIE/, color: "#12151b", heading: 0, length: 4.9, shift: 0, dim: true, shot: { pos: [-1.5, 0.42, -5.5], look: [-0.05, 0.62, -1.4], fov: 24 } },
 });

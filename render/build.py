@@ -13,19 +13,8 @@ PLATES = {
     "bay-atlas": ("#ff7a2e", "01", "ATLAS", "A firewall for AI agents", [("3/12", "secrets leaked, no firewall"), ("0/12", "secrets leaked, firewall on"), ("18/20", "normal tasks still pass")], "Small test on one real model"),
     "bay-trustcheck": ("#4cc0ff", "02", "TRUSTCHECK", "Should you act on this message?", [("4", "signals scored per message"), ("LIVE", "Chrome call guard")], "Team build for D3COY"),
     "bay-agrix": ("#63e87a", "03", "AGRIX", "AI smart farming assistant", [("98.7%", "crop recommendation accuracy"), ("90.22%", "disease detection accuracy"), ("90K+", "images in the dataset")], "Python, TensorFlow, Random Forest"),
-    "glovebox": ("#4cc0ff", "GLOVEBOX", "THE NUMBERS", "IT at DJSCE, 2024 to 2028", [("9.49", "CGPA"), ("95%", "Oracle Certified Foundations Associate"), ("90+", "LeetCode problems solved")], "AWS Cloud Practitioner Essentials. Deloitte Technology Job Simulation."),
-    "service": ("#ffc846", "LOGBOOK", "SERVICE RECORD", "Technical Co-Committee, DJS NSS, since July 2025", [("35 KG", "contributed at Grainathon 3.0"), ("5", "NSS drives and programmes"), ("2", "registration workflows built")], "Rural Camp, Blood Donation Drive, Beach Cleanup, Vegan Outreach."),
-    "hardware": ("#63e87a", "PARTS BIN", "HARD PARTS", "Built with actual hardware", [("DRIP", "irrigation that optimizes water distribution"), ("PURE", "multi-stage water purifier")], "Removes physical and chemical impurities."),
     "bay-nss": ("#ffc846", "04", "DJS NSS", "Official site and event sign-ups", [("100s", "of student registrations"), ("2", "event portals shipped")], "Team build in React and Tailwind"),
 }
-
-
-GROUPS = [
-    ("AI SECURITY", "Built and tested a prompt injection firewall on a real LLM"),
-    ("MACHINE LEARNING", "Compared four CNNs on accuracy against size"),
-    ("FULL STACK", "React, FastAPI and Docker, deployed live with CI"),
-    ("SHIPPING", "Live demos, automated tests, honest limits"),
-]
 
 
 def font(size, weight="SemiBold"):
@@ -67,21 +56,6 @@ def plate_overlay(colour, number, name, subtitle, stats, foot):
     return layer
 
 
-def workshop_overlay():
-    layer = Image.new("RGBA", SIZE, (0, 0, 0, 0))
-    draw = ImageDraw.Draw(layer)
-    for x in range(0, 720):
-        draw.line([(x, 0), (x, SIZE[1])], fill=(0, 0, 0, int(232 * max(0, 1 - x / 720))))
-    draw.text((46, 38), "AT A GLANCE", font=font(16), fill="#ff7a2e")
-    draw.text((44, 62), "SPEC SHEET", font=font(50, "Bold"), fill=PAPER)
-    y = 142
-    for label, value in GROUPS:
-        draw.text((46, y), label, font=font(15), fill="#ff7a2e")
-        draw.text((46, y + 22), value, font=font(19, "Regular"), fill=PAPER)
-        y += 74
-    return layer
-
-
 def finish_overlay():
     layer = Image.new("RGBA", SIZE, (0, 0, 0, 0))
     draw = ImageDraw.Draw(layer)
@@ -107,7 +81,6 @@ def build(name, overlay):
 
 
 build("hero", hero_overlay())
-build("workshop", workshop_overlay())
 build("finish", finish_overlay())
 tools = Image.new("RGBA", SIZE, (0, 0, 0, 0))
 build("tools", tools)
