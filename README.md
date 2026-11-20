@@ -14,7 +14,7 @@ Outside class I'm Treasurer at DJS NSS. I'm an Oracle Certified Foundations Asso
 
 Every project here gets its own car, because I like cars almost as much as I like shipping.
 
-**01** [ATLAS](#atlas) &nbsp;&nbsp;|&nbsp;&nbsp; **02** [TrustCheck](#trustcheck) &nbsp;&nbsp;|&nbsp;&nbsp; **03** [AgriX](#agrix) &nbsp;&nbsp;|&nbsp;&nbsp; **04** [DJS NSS](#djs-nss) &nbsp;&nbsp;|&nbsp;&nbsp; [Skills](#skills)
+**01** [ATLAS](#atlas) &nbsp;&nbsp;|&nbsp;&nbsp; **02** [TrustCheck](#trustcheck) &nbsp;&nbsp;|&nbsp;&nbsp; **03** [AgriX](#agrix) &nbsp;&nbsp;|&nbsp;&nbsp; **04** [DJS NSS](#djs-nss) &nbsp;&nbsp;|&nbsp;&nbsp; **05** [Matrix](#matrix) &nbsp;&nbsp;|&nbsp;&nbsp; **06** [Mummy Said So](#mummy-said-so) &nbsp;&nbsp;|&nbsp;&nbsp; [Skills](#skills)
 
 ---
 
@@ -79,6 +79,34 @@ Redesigned the official site with the team and built the sign-up portals for Gra
 `React` `Tailwind CSS`
 
 [Repo](https://github.com/djsnss/djsnss-web)
+
+---
+
+<a id="matrix"></a>
+
+## 05 · Matrix
+
+*Investment research for Indian markets, explained in plain words.*
+
+Matrix loads NSE stock prices and AMFI mutual fund NAVs every day, checks the data for errors and explains what the market did. It scores every liquid stock with its reasons, imports your holdings straight from a CAS statement, and raises alerts from official NSE filings like auditor exits and promoter pledges. Every forecast is saved once and graded against what really happened, including the months it lost. A research tool, not investment advice.
+
+`Python` `FastAPI` `PostgreSQL` `JavaScript`
+
+[Repo](https://github.com/Itzdhruvpatel/MATRIX)
+
+---
+
+<a id="mummy-said-so"></a>
+
+## 06 · Mummy Said So
+
+*So mom never has to ask "what should I cook today?" again.*
+
+A family meal planner app. It builds a balanced weekly menu around the family's diet, scales each recipe and its spices to the number of people eating, and turns the plan into a grocery list. The family joins with an invite link to vote on dishes and chat about food. Works in ten Indian languages, with voice input.
+
+`React Native` `Expo` `TypeScript` `Supabase`
+
+[Website](https://mummy-said-so.vercel.app) &nbsp;|&nbsp; [Repo](https://github.com/Itzdhruvpatel/Crave-Craft)
 
 ---
 
