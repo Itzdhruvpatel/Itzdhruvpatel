@@ -14,6 +14,8 @@ PLATES = {
     "bay-trustcheck": ("#4cc0ff", "02", "TRUSTCHECK", "Should you act on this message?", [("4", "signals scored per message"), ("LIVE", "Chrome call guard")], "Team build for D3COY"),
     "bay-agrix": ("#63e87a", "03", "AGRIX", "AI smart farming assistant", [("98.7%", "crop recommendation accuracy"), ("90.22%", "disease detection accuracy"), ("90K+", "images in the dataset")], "Python, TensorFlow, Random Forest"),
     "bay-nss": ("#ffc846", "04", "DJS NSS", "Official site and event sign-ups", [("100s", "of student registrations"), ("2", "event portals shipped")], "Team build in React and Tailwind"),
+    "bay-matrix": ("#b08cff", "05", "MATRIX", "Investment research for Indian markets", [("1,500", "NSE stocks scored every day"), ("CAS", "holdings imported from one statement")], "Python, FastAPI, PostgreSQL"),
+    "bay-mummy": ("#ff6fae", "06", "MUMMY SAID SO", "A family meal planner app", [("600", "Indian dishes"), ("10", "Indian languages, with voice")], "React Native, Expo, Supabase"),
 }
 
 

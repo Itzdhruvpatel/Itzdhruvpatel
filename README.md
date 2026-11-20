@@ -88,6 +88,8 @@ Redesigned the official site with the team and built the sign-up portals for Gra
 
 *Investment research for Indian markets, explained in plain words.*
 
+<img src="assets/bay-matrix.webp" width="100%" alt="Dark Pagani Zonda under a purple MATRIX neon sign. Every liquid NSE stock scored daily, and holdings imported from one CAS statement."/>
+
 Matrix loads NSE stock prices and AMFI mutual fund NAVs every day, checks the data for errors and explains what the market did. It scores every liquid stock with its reasons, imports your holdings straight from a CAS statement, and raises alerts from official NSE filings like auditor exits and promoter pledges. Every forecast is saved once and graded against what really happened, including the months it lost. A research tool, not investment advice.
 
 `Python` `FastAPI` `PostgreSQL` `JavaScript`
@@ -101,6 +103,8 @@ Matrix loads NSE stock prices and AMFI mutual fund NAVs every day, checks the da
 ## 06 · Mummy Said So
 
 *So mom never has to ask "what should I cook today?" again.*
+
+<a href="https://mummy-said-so.vercel.app"><img src="assets/bay-mummy.webp" width="100%" alt="Green classic Mini Cooper under a pink MUMMY SAID SO neon sign. 600 Indian dishes in ten Indian languages, with voice."/></a>
 
 A family meal planner app. It builds a balanced weekly menu around the family's diet, scales each recipe and its spices to the number of people eating, and turns the plan into a grocery list. The family joins with an invite link to vote on dishes and chat about food. Works in ten Indian languages, with voice input.
 
@@ -130,4 +134,4 @@ A family meal planner app. It builds a balanced weekly menu around the family's 
   <a href="https://www.linkedin.com/in/dhruv-patel-077765292/"><b>Say hi on LinkedIn</b></a>
 </p>
 
-<sub>3D cars rendered in Three.js, all <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>: <a href="https://sketchfab.com/3d-models/lamborghini-aventador-svj-sdc-free-784e4656aca649cca55d6b18740a19b2">Lamborghini Aventador SVJ</a> by SDC PERFORMANCE, <a href="https://sketchfab.com/3d-models/bmw-m4-f82-8e87379f40fd40dcac0a751e22c1a188">BMW M4 F82</a> by Black Snow, <a href="https://sketchfab.com/3d-models/lamborghini-tractor-r6-125-dcr-wwwvecarzcom-56d7c8e7e2cb4d15a3d80cc42c697c53">Lamborghini Tractor R6</a> by vecarz, <a href="https://sketchfab.com/3d-models/bmw-m5-cs-f90-8f74fb3420e24213aaeea33dc99450a3">BMW M5 CS</a> by fvrenbld. BMW and Lamborghini are trademarks of their owners; this profile isn't affiliated with them.</sub>
+<sub>3D cars rendered in Three.js, all <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>: <a href="https://sketchfab.com/3d-models/lamborghini-aventador-svj-sdc-free-784e4656aca649cca55d6b18740a19b2">Lamborghini Aventador SVJ</a> by SDC PERFORMANCE, <a href="https://sketchfab.com/3d-models/bmw-m4-f82-8e87379f40fd40dcac0a751e22c1a188">BMW M4 F82</a> by Black Snow, <a href="https://sketchfab.com/3d-models/lamborghini-tractor-r6-125-dcr-wwwvecarzcom-56d7c8e7e2cb4d15a3d80cc42c697c53">Lamborghini Tractor R6</a> by vecarz, <a href="https://sketchfab.com/3d-models/bmw-m5-cs-f90-8f74fb3420e24213aaeea33dc99450a3">BMW M5 CS</a> by fvrenbld, <a href="https://sketchfab.com/3d-models/pagani-zonda-revolucion-86a9a131abc74ceea43608851c759cc6">Pagani Zonda Revolucion</a> by Yuniesque, <a href="https://sketchfab.com/3d-models/austin-mini-mini-cooper-1968-34651008e7074c03ab3aa7e1795dbd00">Austin Mini Cooper 1968</a> by mmcworks. BMW, Lamborghini, Pagani and Mini are trademarks of their owners; this profile isn't affiliated with them.</sub>

@@ -17,6 +17,8 @@ const CARS = {
   atlas: { sign: "ATLAS", neon: "#ff5a1f", paint: /CARROSSERIE/, color: "#e8590c", heading: 0, length: 4.9, angle: 0.72, lift: 0, shift: 0.19 },
   trustcheck: { sign: "TRUSTCHECK", neon: "#2fb4ff", paint: null, color: null, heading: 0, length: 4.7, angle: 0.72, lift: 0, shift: 0.19 },
   agrix: { sign: "AGRIX", neon: "#57e36f", paint: null, color: null, heading: 0, length: 4.4, angle: 0.72, lift: 0, shift: 0.2, boost: 1.6 },
+  matrix: { sign: "MATRIX", neon: "#9b6bff", paint: /Body|Spoiler/, color: "#1d1728", heading: Math.PI / 2, rough: 0.58, metal: 0.15, coat: 0.25, length: 4.6, angle: 0.72, lift: 0, shift: 0.19 },
+  mummy: { sign: "MUMMY SAID SO", neon: "#ff4f9a", paint: null, color: null, heading: 0, length: 3.1, angle: 0.72, lift: 0, shift: 0.19, hide: /^Object_122$/, distance: 5.9, signAt: [-3.97, 2.78, -5.55], signScale: 0.8 },
   nss: { sign: "DJS NSS", neon: "#ffc43a", paint: null, color: null, heading: -Math.PI / 2, length: 5.0, angle: 0.72, lift: 0, shift: 0.19 },
   hero: { sign: "DHRUV'S GARAGE", neon: "#ff2d46", paint: /CARROSSERIE/, color: "#12151b", file: "atlas", heading: 0, length: 4.9, angle: 0.5, lift: 0, shift: 0 },
 };
@@ -270,6 +272,7 @@ const model = config.scene ? toolScene() : (await new GLTFLoader().loadAsync(`..
 if (config.scene) toolWall();
 const seen = new Set();
 model.traverse((node) => {
+  if (config.hide && config.hide.test(node.name)) node.visible = false;
   if (!node.isMesh) return;
   node.castShadow = true;
   node.receiveShadow = true;
@@ -280,36 +283,42 @@ function upgrade(material) {
   if (seen.has(material.uuid)) return material.userData.upgraded || material;
   seen.add(material.uuid);
   if (!material.isMeshStandardMaterial) return material;
+  if (config.plain && config.plain.test(material.name)) { material.map = null; material.color.set("#141414"); }
   const glassy = material.transparent || /glass|windshield|window/i.test(material.name);
   const painted = config.paint && config.paint.test(material.name);
   if (!painted && (glassy || material.roughness > 0.5)) return material;
   const next = new THREE.MeshPhysicalMaterial();
   THREE.MeshStandardMaterial.prototype.copy.call(next, material);
-  next.clearcoat = 1;
+  next.clearcoat = painted ? config.coat ?? 1 : 1;
   next.clearcoatRoughness = 0.04;
   if (painted) {
     next.color.set(config.color);
     next.map = null;
-    next.metalness = 0.55;
-    next.roughness = 0.34;
+    next.metalness = config.metal ?? 0.55;
+    next.roughness = config.rough ?? 0.34;
   }
   material.userData.upgraded = next;
   return next;
 }
 // Scale to a real length, set it on the floor, and turn the nose the same way for every car.
+function visibleBox(root) {
+  const box = new THREE.Box3();
+  root.traverse((node) => { if (node.isMesh && node.visible) box.expandByObject(node); });
+  return box;
+}
 const holder = new THREE.Group();
 holder.add(model);
 scene.add(holder);
-let box = new THREE.Box3().setFromObject(holder);
+let box = visibleBox(holder);
 let size = box.getSize(new THREE.Vector3());
 holder.scale.setScalar(config.length / Math.max(size.x, size.z));
 holder.rotation.y = config.heading;
 holder.updateMatrixWorld(true);
-box = new THREE.Box3().setFromObject(holder);
+box = visibleBox(holder);
 const centre = box.getCenter(new THREE.Vector3());
 holder.position.set(-centre.x, -box.min.y + 0.004 + config.lift, -centre.z);
 holder.updateMatrixWorld(true);
-size = new THREE.Box3().setFromObject(holder).getSize(new THREE.Vector3());
+size = visibleBox(holder).getSize(new THREE.Vector3());
 
 // Soft contact shadow, which is what plants the tyres on the floor.
 const blob = document.createElement("canvas");
@@ -337,7 +346,7 @@ window.info = { size: size.toArray().map((n) => +n.toFixed(2)), materials: [...n
 window.renderFrame = (t) => {
   const wave = Math.sin(t * Math.PI * 2);
   const angle = config.angle + wave * 0.045;
-  const distance = Math.max(config.length * 1.42, size.y * 3.4);
+  const distance = config.distance || Math.max(config.length * 1.42, size.y * 3.4);
   if (config.shot) {
     camera.fov = config.shot.fov;
     camera.updateProjectionMatrix();
